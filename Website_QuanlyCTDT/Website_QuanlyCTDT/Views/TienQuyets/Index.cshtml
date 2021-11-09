@@ -1,0 +1,16 @@
+﻿
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts {
+    <script src="@Url.Content("~/bundle/Tienquyet.js")"></script>
+
+}
+<div class="content">
+    <div id="app">
+        <tienquyet-component :monhocs="@JsonConvert.SerializeObject(ViewBag.listmon)" :mhtqs="@JsonConvert.SerializeObject(ViewBag.mhtq)" Tienquyet-url="/TienQuyets/Details"></tienquyet-component>
+
+    </div>
+</div>

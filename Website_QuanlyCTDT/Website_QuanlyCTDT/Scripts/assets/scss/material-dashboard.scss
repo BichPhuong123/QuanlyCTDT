@@ -1,0 +1,49 @@
+// =========================================================
+// * Vue Material Dashboard - v1.5.0
+// =========================================================
+//
+// * Product Page: https://www.creative-tim.com/product/vue-material-dashboard
+// * Copyright 2019 Creative Tim (https://www.creative-tim.com)
+// * Licensed under MIT (https://github.com/creativetimofficial/vue-material-dashboard/blob/master/LICENSE.md)
+//
+// * Coded by Creative Tim
+//
+// =========================================================
+//
+// * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+//variables and mixins
+@import "./md/_variables.scss";
+@import "./md/_mixins.scss";
+@import "./md/_shadows.scss";
+
+//plugin css
+@import "./md/plugins/_perfect-scrollbar.scss";
+
+// Core CSS
+@import "./md/_typography.scss";
+@import "./md/_sidebar-and-main-panel.scss";
+@import "./md/_buttons.scss";
+@import "./md/_misc.scss";
+@import "./md/_inputs.scss";
+@import "./md/_fixed-plugin.scss";
+@import "./md/_forms.scss";
+@import "./md/_alerts.scss";
+@import "./md/_tables.scss";
+@import "./md/_layout.scss";
+@import "./md/_checkboxes.scss";
+@import "./md/_togglebutton.scss";
+@import "./md/_ripples.scss";
+@import "./md/_pagination.scss";
+@import "./md/_pills.scss";
+@import "./md/_dialogs.scss";
+@import "./md/_navbars.scss";
+@import "./md/_popups.scss";
+@import "./md/_footers.scss";
+
+// Fancy Stuff
+@import "./md/_dropdown.scss";
+@import "./md/_cards.scss";
+@import "./md/_tabs.scss";
+@import "./md/_chartist.scss";
+@import "./md/_responsive.scss";

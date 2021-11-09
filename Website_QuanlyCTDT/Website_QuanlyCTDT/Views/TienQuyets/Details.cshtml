@@ -1,0 +1,18 @@
+﻿@model Website_QuanlyCTDT.Models.MonHoc
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Chi tiết môn học";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div id="app">
+        <detail-component :monhoc="@JsonConvert.SerializeObject(Model)"></detail-component>
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="@Url.Content("~/bundle/Tienquyet.js")"></script>
+
+}

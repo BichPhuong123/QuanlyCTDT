@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Quản lý CTĐT khoa CNTT </title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <script src="@Url.Content("~/bundle/assets.js")"></script>
+    <script src="@Url.Content("~/bundle/Layout.js")"></script>
+
+</head>
+<body>
+    <div id="main">
+
+
+
+        <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
+
+            <side-bar :sidebar-item-color="sidebarBackground"
+                      :sidebar-background-image="sidebarBackgroundImage">
+                <mobile-menu slot="content"></mobile-menu>
+
+                <li class="md-list-item">
+                    <a href="/Home/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='Home'||currentLink=='' }">
+                        <div class="md-list-item-content md-ripple">
+                            <slot>
+                                <md-icon>dashboard</md-icon>
+                                <p>Trang chủ</p>
+                            </slot>
+                        </div>
+                    </a>
+                </li>
+
+
+                <li class="md-list-item">
+                    <a href="/Monhocs/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='Monhocs'}">
+
+                        <div class="md-list-item-content md-ripple">
+
+                            <slot>
+                                <md-icon>content_paste</md-icon>
+                                <p>Môn học</p>
+                            </slot>
+
+
+                        </div>
+                    </a>
+                </li>
+                <li class="md-list-item">
+                    <a href="/TienQuyets/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='TienQuyets'}">
+
+                        <div class="md-list-item-content md-ripple">
+
+                            <slot>
+                                <md-icon>content_paste</md-icon>
+                                <p>Môn học tiên quyết</p>
+                            </slot>
+
+
+                        </div>
+                    </a>
+                </li>
+                @*<sidebar-link to="/typography">
+            <md-icon>library_books</md-icon>
+            <p>Typography</p>
+        </sidebar-link>
+        <sidebar-link to="/icons">
+            <md-icon>bubble_chart</md-icon>
+            <p>Icons</p>
+        </sidebar-link>
+        <sidebar-link to="/maps">
+            <md-icon>location_on</md-icon>
+            <p>Maps</p>
+        </sidebar-link>
+        <sidebar-link to="/notifications">
+            <md-icon>notifications</md-icon>
+            <p>Notifications</p>
+        </sidebar-link>*@
+
+
+            </side-bar>
+
+            <div class="main-panel">
+                <top-navbar></top-navbar>
+
+
+                @RenderBody()
+
+                <content-footer></content-footer>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Website_QuanlyCTDT.Models.MucTieu>
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Muctieu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div id="app">
+        <muctieu-component :muctieu="@JsonConvert.SerializeObject(Model)"></muctieu-component>
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="@Url.Content("~/bundle/Monhoc.js")"></script>
+
+}
+
