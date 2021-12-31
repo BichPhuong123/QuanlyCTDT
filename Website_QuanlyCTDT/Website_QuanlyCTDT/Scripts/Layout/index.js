@@ -1,32 +1,36 @@
 ﻿import Vue from 'vue';
-import VueRouter from 'vue-router';
+//import VueRouter from 'vue-router';
+
+
+import SideBar from "./SidebarPlugin";
+import TopNavBar from "./TopNavbar.vue";
+import ContentFooter from "./ContentFooter.vue";
 import VueMaterial from 'vue-material';
 import "vue-material/dist/vue-material.css";
-import TopNavbar from "./TopNavbar.vue";
-import ContentFooter from "./ContentFooter.vue";
-import SideBar from "./SidebarPlugin";
-import MobileMenu from "./MobileMenu.vue";
 
-
-const router = new VueRouter({
-    mode: 'history',
-    base: '/',
-   
-    linkExactActiveClass: "nav-item active"
-});
 Vue.use(VueMaterial)
+
+
+
+//const router = new VueRouter({
+//    mode: 'history',
+//    base: '/',
+   
+//    linkExactActiveClass: "nav-item active"
+//});
+
 Vue.use(SideBar)
-Vue.use(VueRouter)
-document.addEventListener("DOMContentLoaded", function (event) {
+
+
+
     new Vue({
         el: "#main",
-        router,
+        
         components: {
-            TopNavbar,
-            ContentFooter,
-            MobileMenu
-        },
 
+            TopNavBar,
+            ContentFooter
+        },
 
         data() {
 
@@ -35,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
                // activeItem: 'about',
                 sidebarBackground: "green",
-                sidebarBackgroundImage: require("./img/sidebar-2.jpg"),
+                sidebarBackgroundImage: require("./img/sidebar-2.jpg")
             };
 
 
@@ -75,4 +79,4 @@ document.addEventListener("DOMContentLoaded", function (event) {
         //}
 
     })
-});
+

@@ -7,62 +7,61 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
-    <script src="@Url.Content("~/bundle/assets.js")"></script>
-    <script src="@Url.Content("~/bundle/Layout.js")"></script>
 
+    <script src="@Url.Content("~/bundle/assets.js")"></script>
 </head>
 <body>
-    <div id="main">
+    <div id="app">
 
 
 
-        <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
+        <div class="wrapper">
+            
+            <!--<side-bar :sidebar-item-color="sidebarBackground"
+          :sidebar-background-image="sidebarBackgroundImage">
+    <mobile-menu slot="content"></mobile-menu>
 
-            <side-bar :sidebar-item-color="sidebarBackground"
-                      :sidebar-background-image="sidebarBackgroundImage">
-                <mobile-menu slot="content"></mobile-menu>
-
-                <li class="md-list-item">
-                    <a href="/Home/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='Home'||currentLink=='' }">
-                        <div class="md-list-item-content md-ripple">
-                            <slot>
-                                <md-icon>dashboard</md-icon>
-                                <p>Trang chủ</p>
-                            </slot>
-                        </div>
-                    </a>
-                </li>
-
-
-                <li class="md-list-item">
-                    <a href="/Monhocs/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='Monhocs'}">
-
-                        <div class="md-list-item-content md-ripple">
-
-                            <slot>
-                                <md-icon>content_paste</md-icon>
-                                <p>Môn học</p>
-                            </slot>
+    <li class="md-list-item">
+        <a href="/Home/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='Home'||currentLink=='' }">
+            <div class="md-list-item-content md-ripple">
+                <slot>
+                    <md-icon>dashboard</md-icon>
+                    <p>Trang chủ</p>
+                </slot>
+            </div>
+        </a>
+    </li>
 
 
-                        </div>
-                    </a>
-                </li>
-                <li class="md-list-item">
-                    <a href="/TienQuyets/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='TienQuyets'}">
+    <li class="md-list-item">
+        <a href="/Monhocs/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='Monhocs'}">
 
-                        <div class="md-list-item-content md-ripple">
+            <div class="md-list-item-content md-ripple">
 
-                            <slot>
-                                <md-icon>content_paste</md-icon>
-                                <p>Môn học tiên quyết</p>
-                            </slot>
+                <slot>
+                    <md-icon>content_paste</md-icon>
+                    <p>Môn học</p>
+                </slot>
 
 
-                        </div>
-                    </a>
-                </li>
-                @*<sidebar-link to="/typography">
+            </div>
+        </a>
+    </li>
+    <li class="md-list-item">
+        <a href="/TienQuyets/Index" class="md-list-item-router md-list-item-container md-button-clean" v-bind:class="{ active: currentLink=='TienQuyets'}">
+
+            <div class="md-list-item-content md-ripple">
+
+                <slot>
+                    <md-icon>content_paste</md-icon>
+                    <p>Môn học tiên quyết</p>
+                </slot>
+
+
+            </div>
+        </a>
+    </li>-->
+            @*<sidebar-link to="/typography">
             <md-icon>library_books</md-icon>
             <p>Typography</p>
         </sidebar-link>
@@ -80,15 +79,47 @@
         </sidebar-link>*@
 
 
-            </side-bar>
-
+            <!--</side-bar>-->
+            <div data-color="green" class="sidebar" style="background-image: url('/bundle/sidebar-2.jpg')">
+                <div class="logo">
+                    <a href="#" class="simple-text logo-mini"><div class="logo-img"><img src="/bundle/vue-logo.png" alt=""></div></a> <a href="https://www.creative-tim.com/product/vue-material-dashboard" target="_blank" class="simple-text logo-normal">
+                        Khoa CNTT
+                    </a>
+                </div>
+                <div class="sidebar-wrapper">
+                  
+                    <ul class="md-list nav md-theme-default">
+                        <li class="md-list-item">
+                            <a href="/Home/Index" class="md-list-item-router md-list-item-container md-button-clean">
+                                <div class="md-list-item-content md-ripple"><md-icon>dashboard</md-icon> <p>Trang chủ</p></div>
+                            </a>
+                        </li>
+                        <li class="md-list-item">
+                            <a href="/Monhocs/Index" class="md-list-item-router md-list-item-container md-button-clean">
+                                <div class="md-list-item-content md-ripple"> <md-icon>content_paste</md-icon> <p>Môn học</p></div>
+                            </a>
+                        </li>
+                        <li class="md-list-item">
+                            <a href="/TienQuyets/Index" class="md-list-item-router md-list-item-container md-button-clean">
+                                <div class="md-list-item-content md-ripple"> <md-icon>content_paste</md-icon> <p>Môn học tiên quyết</p></div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="main-panel">
                 <top-navbar></top-navbar>
 
-
                 @RenderBody()
 
-                <content-footer></content-footer>
+                <footer class="footer">
+                    <div class="container">
+                        <nav><ul><li><a href="https://www.creative-tim.com">Creative Tim</a></li> <li><a href="https://creative-tim.com/presentation"> About Us </a></li> <li><a href="http://blog.creative-tim.com"> Blog </a></li> <li><a href="https://www.creative-tim.com/license"> Licenses </a></li></ul></nav> <div class="copyright text-center">
+                            © 2021
+                            <a href="https://www.creative-tim.com/?ref=mdf-vuejs" target="_blank">Creative Tim</a>, made with <i class="fa fa-heart heart"></i> for a better web
+                        </div>
+                    </div>
+                </footer>
             </div>
 
         </div>
@@ -96,9 +127,17 @@
 
 
     </div>
-
+    
+   
+    @*<script src="@Url.Content("~/bundle/Layout.js")"></script>*@
 
     @RenderSection("Scripts", required: false)
 
+
+
+
+
+
 </body>
+
 </html>

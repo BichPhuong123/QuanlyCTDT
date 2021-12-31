@@ -3,16 +3,19 @@
 @{ ViewData["Title"] = "Monhoc";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
+
+<div class="content">
+    <div id="app">
+            <khoahoc-component :khoas="@JsonConvert.SerializeObject(Model)" monhoc-url="/Monhocs/Danhsach"></khoahoc-component>
+
+        </div>
+    
+</div>
+
 @section scripts {
+
     <script src="@Url.Content("~/bundle/Monhoc.js")"></script>
 
 }
-<div class="content">
-    <div id="app">
-        <khoahoc-component :khoas="@JsonConvert.SerializeObject(Model)" monhoc-url="/Monhocs/Danhsach"></khoahoc-component>
-
-    </div>
-</div>
-
 
 

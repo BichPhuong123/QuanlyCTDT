@@ -4,15 +4,18 @@
     ViewData["Title"] = "Danh sách môn học";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="content">
     <div id="app">
         <monhoc-component :monhocs="@JsonConvert.SerializeObject(ViewBag.listmon)" :nganhs="@JsonConvert.SerializeObject(ViewBag.listnganh)" khoahoc="@ViewBag.id" search-url="/Monhocs/Search" details-url="/Monhocs/Details" muctieu-url="/Monhocs/Muctieu"></monhoc-component>
 
     </div>
 </div>
-@section scripts {
-    <script src="@Url.Content("~/bundle/Monhoc.js")"></script>
-   
-}
 
+@section scripts {
+
+
+    <script src="@Url.Content("~/bundle/Monhoc.js")"></script>
+
+}
 

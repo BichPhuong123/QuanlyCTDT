@@ -7,11 +7,11 @@ namespace Website_QuanlyCTDT.Models
 {
     public partial class getMHByKhoa_Result
     {
-        public string MaMh { get; set; }
-        public string Ten { get; set; }
-        public int? Sotinchi { get; set; }
-        public string Mota { get; set; }
-        public int? Id_chuyennganh { get; set; }
-        public string? TenCn { get; set; }
+        public string maMh { get; set; }
+        public string ten { get; set; }
+        public int? sotinchi { get; set; }
+        public string mota { get; set; }
+        public int? id_chuyennganh { get; set; }
+        public string tenCn { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Website_QuanlyCTDT.Models.MonHoc
+﻿
 @using Newtonsoft.Json;
 @{
     ViewData["Title"] = "Chi tiết môn học";
@@ -7,12 +7,12 @@
 
 <div class="content">
     <div id="app">
-        <detail-component :monhoc="@JsonConvert.SerializeObject(Model)"></detail-component>
+        <detail-component :monhoc="@JsonConvert.SerializeObject(ViewBag.monhoc)" :chuongs="@JsonConvert.SerializeObject(ViewBag.chuong)" :phanconglops="@JsonConvert.SerializeObject(ViewBag.phanconglop)" :phancongnhas="@JsonConvert.SerializeObject(ViewBag.phancongnha)" pdf-url="/Monhocs/ExportPdf"></detail-component>
 
     </div>
 </div>
 
 @section scripts {
     <script src="@Url.Content("~/bundle/Monhoc.js")"></script>
-
+   
 }

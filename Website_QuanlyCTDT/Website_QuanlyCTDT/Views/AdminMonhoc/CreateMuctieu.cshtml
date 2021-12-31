@@ -1,0 +1,21 @@
+﻿@using Newtonsoft.Json;
+@{ ViewData["Title"] = "Monhoc";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
+
+<div class="content">
+    <div id="app">
+        <createmuctieu-component mamh="@ViewBag.mamh" ></createmuctieu-component>
+
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script src="@Url.Content("~/bundle/AdminMonhoc.js")"></script>
+
+}
+
+
+

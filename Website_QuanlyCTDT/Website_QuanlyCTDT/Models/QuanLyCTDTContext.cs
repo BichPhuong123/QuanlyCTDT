@@ -20,6 +20,7 @@ namespace Website_QuanlyCTDT.Models
         }
 
         public virtual DbSet<ChuanDauRa> ChuanDauRas { get; set; }
+        public virtual DbSet<Chuong> Chuongs { get; set; }
         public virtual DbSet<ChuyenNganh> ChuyenNganhs { get; set; }
         public virtual DbSet<KhoaHoc> KhoaHocs { get; set; }
         public virtual DbSet<MhtienQuyet> MhtienQuyets { get; set; }
@@ -28,24 +29,28 @@ namespace Website_QuanlyCTDT.Models
         public virtual DbSet<MonNganh> MonNganhs { get; set; }
         public virtual DbSet<MucTieu> MucTieus { get; set; }
         public virtual DbSet<Nganh> Nganhs { get; set; }
+        public virtual DbSet<PhanCongLop> PhanCongLops { get; set; }
+        public virtual DbSet<PhanCongNha> PhanCongNhas { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
+        public virtual DbSet<Tuan> Tuans { get; set; }
         public virtual DbSet<getMHByKhoa_Result> getMHByKhoa_Results { get; set; }
         public virtual DbSet<getMHhasTQ__Result> getMHhasTQ__Results { get; set; }
         public virtual DbSet<getMHTQ_Result> getMHTQ_Results { get; set; }
-        public IQueryable<getMHByKhoa_Result> getMHByKhoa(int id,string nganh) {
+        public IQueryable<getMHByKhoa_Result> getMHByKhoa(int id, string nganh)
+        {
             SqlParameter kh = new SqlParameter("@id", id);
             SqlParameter ng = new SqlParameter("@nganh", nganh);
-            return this.getMHByKhoa_Results.FromSqlRaw("SELECT * FROM dbo.getMHByKhoa(@id,@nganh)", kh,ng);
+            return this.getMHByKhoa_Results.FromSqlRaw("SELECT * FROM dbo.getMHByKhoa(@id,@nganh)", kh, ng);
         }
         public IQueryable<MucTieu> getMuctieuByMH(string maMh)
         {
             SqlParameter id = new SqlParameter("@maMh", maMh);
-           
+
             return this.MucTieus.FromSqlRaw("EXECUTE getMuctieuByMH @maMh", id);
         }
         public IQueryable<getMHhasTQ__Result> getMHhasTQ()
         {
-            
+
 
             return this.getMHhasTQ__Results.FromSqlRaw("EXECUTE getMHhasTQ");
         }
@@ -55,6 +60,32 @@ namespace Website_QuanlyCTDT.Models
 
             return this.getMHTQ_Results.FromSqlRaw("EXECUTE getMHTQ @maMh", id);
         }
+        public IQueryable<Chuong> getChuongMH(string maMh)
+        {
+            SqlParameter id = new SqlParameter("@maMh", maMh);
+
+            return this.Chuongs.FromSqlRaw("EXECUTE getChuongMH @maMh", id);
+        }
+        public IQueryable<PhanCongLop> getPhancongLop(int idc)
+        {
+            SqlParameter id = new SqlParameter("@id", idc);
+
+            return this.PhanCongLops.FromSqlRaw("EXECUTE getPhancongLop @id", id);
+        }
+        public IQueryable<PhanCongNha> getPhancongNha(int idc)
+        {
+            SqlParameter id = new SqlParameter("@id", idc);
+
+            return this.PhanCongNhas.FromSqlRaw("EXECUTE getPhancongNha @id", id);
+        }
+        public IQueryable<getMHByKhoa_Result> searchSubjects(int id, string idn, string ten)
+        {
+            SqlParameter k = new SqlParameter("@idKH", id);
+            SqlParameter ng = new SqlParameter("@idn", idn);
+            SqlParameter t = new SqlParameter("@ten", ten);
+
+            return this.getMHByKhoa_Results.FromSqlRaw("EXECUTE searchSubjects @idKH, @idn, @ten", k,ng,t);
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -63,7 +94,7 @@ namespace Website_QuanlyCTDT.Models
                 optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=QuanLyCTDT;Integrated Security=True");
             }
         }
-       
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -94,6 +125,34 @@ namespace Website_QuanlyCTDT.Models
                     .WithMany(p => p.ChuanDauRas)
                     .HasForeignKey(d => d.MaMh)
                     .HasConstraintName("FK__ChuanDauRa__maMH__66603565");
+            });
+
+            modelBuilder.Entity<Chuong>(entity =>
+            {
+                entity.ToTable("Chuong");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdTuan).HasColumnName("id_tuan");
+
+                entity.Property(e => e.MaMh)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("maMH");
+
+                entity.Property(e => e.Ten)
+                    .HasMaxLength(100)
+                    .HasColumnName("ten");
+
+                entity.HasOne(d => d.IdTuanNavigation)
+                    .WithMany(p => p.Chuongs)
+                    .HasForeignKey(d => d.IdTuan)
+                    .HasConstraintName("FK__Chuong__id_tuan__51300E55");
+
+                entity.HasOne(d => d.MaMhNavigation)
+                    .WithMany(p => p.Chuongs)
+                    .HasForeignKey(d => d.MaMh)
+                    .HasConstraintName("FK__Chuong__maMH__5224328E");
             });
 
             modelBuilder.Entity<ChuyenNganh>(entity =>
@@ -170,7 +229,8 @@ namespace Website_QuanlyCTDT.Models
 
                 entity.Property(e => e.Ten)
                     .HasMaxLength(100)
-                    .HasColumnName("ten");
+                    .HasColumnName("ten")
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AI");
 
                 entity.HasOne(d => d.IdChuyennganhNavigation)
                     .WithMany(p => p.MonHocs)
@@ -273,6 +333,42 @@ namespace Website_QuanlyCTDT.Models
                     .HasColumnName("tennganh");
             });
 
+            modelBuilder.Entity<PhanCongLop>(entity =>
+            {
+                entity.ToTable("PhanCongLop");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdChuong).HasColumnName("id_chuong");
+
+                entity.Property(e => e.Mota)
+                    .HasMaxLength(100)
+                    .HasColumnName("mota");
+
+                entity.HasOne(d => d.IdChuongNavigation)
+                    .WithMany(p => p.PhanCongLops)
+                    .HasForeignKey(d => d.IdChuong)
+                    .HasConstraintName("FK__PhanCongL__id_ch__55009F39");
+            });
+
+            modelBuilder.Entity<PhanCongNha>(entity =>
+            {
+                entity.ToTable("PhanCongNha");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdChuong).HasColumnName("id_chuong");
+
+                entity.Property(e => e.Mota)
+                    .HasMaxLength(100)
+                    .HasColumnName("mota");
+
+                entity.HasOne(d => d.IdChuongNavigation)
+                    .WithMany(p => p.PhanCongNhas)
+                    .HasForeignKey(d => d.IdChuong)
+                    .HasConstraintName("FK__PhanCongN__id_ch__57DD0BE4");
+            });
+
             modelBuilder.Entity<TaiKhoan>(entity =>
             {
                 entity.ToTable("TaiKhoan");
@@ -292,6 +388,15 @@ namespace Website_QuanlyCTDT.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("username");
+            });
+
+            modelBuilder.Entity<Tuan>(entity =>
+            {
+                entity.ToTable("Tuan");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Ten).HasColumnName("ten");
             });
             modelBuilder.Entity<getMHByKhoa_Result>().ToTable("getMHByKhoa_Result").HasNoKey();
             //        modelBuilder.HasDbFunction(typeof(QuanLyCTDTContext).GetMethod(nameof(getMHByKhoa), new[] { typeof(int)

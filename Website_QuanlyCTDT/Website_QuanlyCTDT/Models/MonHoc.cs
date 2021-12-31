@@ -10,6 +10,7 @@ namespace Website_QuanlyCTDT.Models
         public MonHoc()
         {
             ChuanDauRas = new HashSet<ChuanDauRa>();
+            Chuongs = new HashSet<Chuong>();
             MhtienQuyetMaMhNavigations = new HashSet<MhtienQuyet>();
             MhtienQuyetMaMhtqNavigations = new HashSet<MhtienQuyet>();
             MonKhoas = new HashSet<MonKhoa>();
@@ -25,6 +26,7 @@ namespace Website_QuanlyCTDT.Models
 
         public virtual ChuyenNganh IdChuyennganhNavigation { get; set; }
         public virtual ICollection<ChuanDauRa> ChuanDauRas { get; set; }
+        public virtual ICollection<Chuong> Chuongs { get; set; }
         public virtual ICollection<MhtienQuyet> MhtienQuyetMaMhNavigations { get; set; }
         public virtual ICollection<MhtienQuyet> MhtienQuyetMaMhtqNavigations { get; set; }
         public virtual ICollection<MonKhoa> MonKhoas { get; set; }

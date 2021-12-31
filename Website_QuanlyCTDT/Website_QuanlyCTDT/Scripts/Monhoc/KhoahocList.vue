@@ -37,14 +37,11 @@
 </template>
 
 <script>
-import SimpleTable from "../components";
+    
 
     export default {
         name: "khoahoc-component",
-  components: {
   
-    SimpleTable,
-        },
         props: {
            
             Khoas: Array,

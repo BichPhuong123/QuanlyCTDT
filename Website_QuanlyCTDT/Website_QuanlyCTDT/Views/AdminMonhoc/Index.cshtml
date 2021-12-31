@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Website_QuanlyCTDT.Models.KhoaHoc>
+@using Newtonsoft.Json;
+@{ ViewData["Title"] = "Monhoc";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
+
+<div class="content">
+    <div id="app">
+        <adminkhoahoc-component :khoas="@JsonConvert.SerializeObject(Model)" monhoc-url="/AdminMonhoc/Danhsach"></adminkhoahoc-component>
+
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script src="@Url.Content("~/bundle/AdminMonhoc.js")"></script>
+
+}
+
+

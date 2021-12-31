@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Website_QuanlyCTDT.Models;
 
 namespace Website_QuanlyCTDT
@@ -25,6 +26,8 @@ namespace Website_QuanlyCTDT
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+         
+
             var connectionString = Configuration.GetConnectionString("DataConnection");
             services.AddControllersWithViews();
             services.AddDbContext<QuanLyCTDTContext>(options => options.UseSqlServer(connectionString));

@@ -63,6 +63,18 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "Syncfusion.Pdf.Net.Core": {
+              "target": "Package",
+              "version": "[19.4.0.38, )"
+            },
+            "iTextSharp.LGPLv2.Core": {
+              "target": "Package",
+              "version": "[1.7.5, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[7.2.0, )"
             }
           },
           "imports": [

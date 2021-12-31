@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Website_QuanlyCTDT.Models.MucTieu>
+﻿
 @using Newtonsoft.Json;
 @{
     ViewData["Title"] = "Muctieu";
@@ -7,7 +7,7 @@
 
 <div class="content">
     <div id="app">
-        <muctieu-component :muctieu="@JsonConvert.SerializeObject(Model)"></muctieu-component>
+        <muctieu-component :muctieu="@JsonConvert.SerializeObject(ViewBag.muctieu)" :dauras="@JsonConvert.SerializeObject(ViewBag.daura)"></muctieu-component>
 
     </div>
 </div>

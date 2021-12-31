@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content">
+    <div id="app">
+
+        <adminhome-component></adminhome-component>
+
+    </div>
+
+
+
+
+</div>
+@section scripts {
+
+    <script src="@Url.Content("~/bundle/AdminHome.js")"></script>
+
+}

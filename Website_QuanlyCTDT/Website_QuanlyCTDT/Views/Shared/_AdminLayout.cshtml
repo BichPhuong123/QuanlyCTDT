@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Quản lý CTĐT khoa CNTT </title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+
+    <script src="@Url.Content("~/bundle/assets.js")"></script>
+</head>
+<body>
+    <div id="app">
+
+
+
+        <div class="wrapper">
+
+            
+
+            <!--</side-bar>-->
+            <div data-color="green" class="sidebar" style="background-image: url('/bundle/sidebar-2.jpg')">
+                <div class="logo">
+                    <a href="#" class="simple-text logo-mini"><div class="logo-img"><img src="/bundle/vue-logo.png" alt=""></div></a> <a href="https://www.creative-tim.com/product/vue-material-dashboard" target="_blank" class="simple-text logo-normal">
+                        Admin
+                    </a>
+                </div>
+                <div class="sidebar-wrapper">
+
+                    <ul class="md-list nav md-theme-default">
+                        <li class="md-list-item">
+                            <a href="/AdminHome/Index" class="md-list-item-router md-list-item-container md-button-clean">
+                                <div class="md-list-item-content md-ripple"><md-icon>dashboard</md-icon> <p>Trang chủ</p></div>
+                            </a>
+                        </li>
+                        <li class="md-list-item">
+                            <a href="/AdminMonhoc/Index" class="md-list-item-router md-list-item-container md-button-clean">
+                                <div class="md-list-item-content md-ripple"> <md-icon>content_paste</md-icon> <p>Môn học</p></div>
+                            </a>
+                        </li>
+                        <li class="md-list-item">
+                            <a href="/TienQuyets/Index" class="md-list-item-router md-list-item-container md-button-clean">
+                                <div class="md-list-item-content md-ripple"> <md-icon>content_paste</md-icon> <p>Môn học tiên quyết</p></div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="main-panel">
+               
+
+                <script src="@Url.Content("~/bundle/assets_admin.js")"></script>
+                @RenderBody()
+
+                <footer class="footer">
+                    <div class="container">
+                        <nav><ul><li><a href="https://www.creative-tim.com">Creative Tim</a></li> <li><a href="https://creative-tim.com/presentation"> About Us </a></li> <li><a href="http://blog.creative-tim.com"> Blog </a></li> <li><a href="https://www.creative-tim.com/license"> Licenses </a></li></ul></nav> <div class="copyright text-center">
+                            © 2021
+                            <a href="https://www.creative-tim.com/?ref=mdf-vuejs" target="_blank">Creative Tim</a>, made with <i class="fa fa-heart heart"></i> for a better web
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+    @*<script src="@Url.Content("~/bundle/Layout.js")"></script>*@
+
+    @RenderSection("Scripts", required: false)
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+/*!
+
+ =========================================================
+ * Vue Material Kit - v1.2.2
+ =========================================================
+
+ * Product Page: http://www.creative-tim.com/product/vue-material-kit
+ * Copyright 2019 Creative Tim (http://www.creative-tim.com)
+ * Licensed under MIT (https://github.com/creativetimofficial/vue-material-kit/blob/master/LICENSE.md)
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+
+
+//variables and mixins
+@import "./material-kit/_variables.scss";
+@import "./material-kit/_mixins.scss";
+@import "./material-kit/_shadows.scss";
+
+//plugin css
+@import "./material-kit/plugins/_perfect-scrollbar.scss";
+@import "./material-kit/plugins/_plugin-nouislider.scss";
+
+// Core CSS
+@import "./material-kit/_typography.scss";
+@import "./material-kit/_buttons.scss";
+@import "./material-kit/_carousel.scss";
+@import "./material-kit/_autocomplete.scss";
+@import "./material-kit/_misc.scss";
+@import "./material-kit/_images.scss";
+@import "./material-kit/_info-areas.scss";
+@import "./material-kit/_datepicker.scss";
+@import "./material-kit/_inputs.scss";
+@import "./material-kit/_badges.scss";
+@import "./material-kit/_progress.scss";
+@import "./material-kit/_alerts.scss";
+@import "./material-kit/_tables.scss";
+@import "./material-kit/_layout.scss";
+@import "./material-kit/_headers.scss";
+@import "./material-kit/_example-pages.scss";
+@import "./material-kit/_checkboxes.scss";
+@import "./material-kit/_togglebutton.scss";
+@import "./material-kit/_pagination.scss";
+@import "./material-kit/_radios.scss";
+@import "./material-kit/_pills.scss";
+@import "./material-kit/_dialogs.scss";
+@import "./material-kit/_navbars.scss";
+@import "./material-kit/_popups.scss";
+@import "./material-kit/_footers.scss";
+
+// Fancy Stuff
+@import "./material-kit/_dropdown.scss";
+@import "./material-kit/_cards.scss";
+@import "./material-kit/_tabs.scss";
+@import "./material-kit/_responsive.scss";
