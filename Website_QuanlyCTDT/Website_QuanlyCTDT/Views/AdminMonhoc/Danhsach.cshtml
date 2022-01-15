@@ -7,7 +7,7 @@
 
 <div class="content">
     <div id="app">
-        <adminmonhoc-component :monhocs="@JsonConvert.SerializeObject(ViewBag.listmon)" :nganhs="@JsonConvert.SerializeObject(ViewBag.listnganh)" khoahoc="@ViewBag.id" search-url="/AdminMonhoc/Search" details-url="/AdminMonhoc/Details" muctieu-url="/AdminMonhoc/Muctieu"></adminmonhoc-component>
+        <adminmonhoc-component :monhocs="@JsonConvert.SerializeObject(ViewBag.listmon)" :nganhs="@JsonConvert.SerializeObject(ViewBag.listnganh)" khoahoc="@ViewBag.id" search-url="/AdminMonhoc/Search"  editmuctieu-url="/AdminMonhoc/EditMuctieu" edit-url="/AdminMonhoc/Edit" editnoidung-url="/AdminMonhoc/EditNoidung"></adminmonhoc-component>
 
     </div>
 </div>

@@ -70,13 +70,13 @@
 <script>
 
     
-        import { SimpleTable, NavTabsCard } from "../components";
+        import { NavTabsCard } from "../components";
         import axios from 'axios';
     export default {
         name: "monhoc-component",
         components: {
             NavTabsCard,
-            SimpleTable,
+           
         },
         props: {
 

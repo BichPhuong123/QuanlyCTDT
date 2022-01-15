@@ -5,6 +5,7 @@ import AdminmonhocComponent from './MonhocList.vue';
 import CreatemonhocComponent from './create.vue';
 import CreatemuctieuComponent from './create_muctieu.vue';
 import CreatenoidungComponent from './create_noidung.vue';
+import EditComponent from './edit.vue';
 import VueMaterial from 'vue-material';
 import "vue-material/dist/vue-material.css";
 
@@ -17,7 +18,8 @@ new Vue({
         AdminmonhocComponent,
         CreatemonhocComponent,
         CreatemuctieuComponent,
-        CreatenoidungComponent
+        CreatenoidungComponent,
+        EditComponent 
     }
 })
 

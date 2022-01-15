@@ -31,6 +31,7 @@ namespace Website_QuanlyCTDT
             var connectionString = Configuration.GetConnectionString("DataConnection");
             services.AddControllersWithViews();
             services.AddDbContext<QuanLyCTDTContext>(options => options.UseSqlServer(connectionString));
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +53,7 @@ namespace Website_QuanlyCTDT
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

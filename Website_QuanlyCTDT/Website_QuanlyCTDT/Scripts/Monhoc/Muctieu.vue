@@ -69,14 +69,11 @@
 </template>
 
 <script>
-    import SimpleTable from "../components";
+    
 
     export default {
         name: "muctieu-component",
-        components: {
-
-            SimpleTable,
-        },
+       
         props: {
 
             Muctieu: Array,

@@ -1,0 +1,21 @@
+﻿
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Danh sách môn học";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content">
+    <div id="app">
+        <adminmonhoc-component :monhocs="@JsonConvert.SerializeObject(ViewBag.listmon)" :nganhs="@JsonConvert.SerializeObject(ViewBag.listnganh)" khoahoc="@ViewBag.id"></adminmonhoc-component>
+
+    </div>
+</div>
+
+@section scripts {
+
+
+    <script src="@Url.Content("~/bundle/AdminDanhsach.js")"></script>
+
+}
+

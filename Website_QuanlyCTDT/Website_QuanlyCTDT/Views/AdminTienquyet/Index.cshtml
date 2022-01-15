@@ -1,0 +1,21 @@
+﻿
+@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}
+
+<div class="content">
+    <div id="app">
+        <admintienquyet-component :monhocs="@JsonConvert.SerializeObject(ViewBag.listmon)" :mhtqs="@JsonConvert.SerializeObject(ViewBag.mhtq)" Edit-url="/AdminTienquyet/Edit"></admintienquyet-component>
+
+    </div>
+</div>
+@section scripts {
+    <script src="@Url.Content("~/bundle/AdminTienquyet.js")"></script>
+
+}

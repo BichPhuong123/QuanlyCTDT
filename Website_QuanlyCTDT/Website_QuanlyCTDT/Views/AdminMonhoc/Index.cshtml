@@ -3,7 +3,10 @@
 @{ ViewData["Title"] = "Monhoc";
     Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
 
-
+@if (TempData["message"] != null)
+{
+    <script>alert('@TempData["message"]');</script>
+}
 <div class="content">
     <div id="app">
         <adminkhoahoc-component :khoas="@JsonConvert.SerializeObject(Model)" monhoc-url="/AdminMonhoc/Danhsach"></adminkhoahoc-component>

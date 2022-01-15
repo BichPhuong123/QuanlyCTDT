@@ -115,6 +115,13 @@
                                 <md-table-cell>{{chuong.IdTuan}}</md-table-cell>
                                 <md-table-cell><b>{{chuong.Ten}}</b></md-table-cell>
                                 <md-table-cell>
+                                    <b>Nội dung trên lớp</b><br />
+                                    <div v-for="lop in Phanconglops[index]">
+                                        {{lop.Mota}} <br />
+                                    </div>
+
+                                </md-table-cell>
+                                <md-table-cell>
 
                                     <b>Nội dung ở nhà</b>  <br />
                                     <!--<md-table-row v-for="lop in Phanconglops[index]">-->
@@ -122,13 +129,7 @@
                                         {{nha.Mota}}<br />
                                     </div>
                                 </md-table-cell>
-                                <md-table-cell>
-                                    <b>Nội dung trên lớp</b><br />
-                                    <div v-for="lop in Phanconglops[index]">
-                                        {{lop.Mota}} <br />
-                                    </div>
 
-                                </md-table-cell>
                                 <!--</md-table-row>-->
                                 <!--<md-table-row>-->
                                 <!--</md-table-row>-->

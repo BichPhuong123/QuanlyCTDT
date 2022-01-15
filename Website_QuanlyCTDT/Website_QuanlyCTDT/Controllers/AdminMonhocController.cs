@@ -28,8 +28,13 @@ namespace Website_QuanlyCTDT.Controllers
         // GET: KhoaHocs
         public async Task<IActionResult> Index()
         {
-            IEnumerable<KhoaHoc> khoahoc = await _context.KhoaHocs.ToListAsync();
-            return View(khoahoc);
+            if (HttpContext.Session.GetString("username") != null)
+            {
+                IEnumerable<KhoaHoc> khoahoc = await _context.KhoaHocs.ToListAsync();
+                return View(khoahoc);
+            }
+            return RedirectToAction("Login","AdminHome");
+           
         }
         public async Task<IActionResult> Danhsach(int id)
         {
@@ -223,6 +228,134 @@ namespace Website_QuanlyCTDT.Controllers
 
             return View("Index", khoahoc);
         }
+        [HttpPost]
+        public JsonResult Delete(string mamh)
+        {
+            int a = 1;
+           List<MonKhoa> monKhoas = _context.MonKhoas.Where(x => x.MaMh == mamh).ToList();
+           List< MonNganh> monNganhs = _context.MonNganhs.Where(x => x.MaMh == mamh).ToList();
+            List<MucTieu> mucTieus = _context.MucTieus.Where(x => x.MaMh == mamh).ToList();
+            List<ChuanDauRa> chuanDauRas = _context.ChuanDauRas.Where(x => x.MaMh == mamh).ToList();
+            List<MhtienQuyet> mhtienQuyets= _context.MhtienQuyets.Where(x => x.MaMh == mamh).ToList();
+            List<MhtienQuyet> mhtienQuyet = _context.MhtienQuyets.Where(x => x.MaMhtq == mamh).ToList();
+            List<Chuong> chuongs = _context.Chuongs.Where(x => x.MaMh == mamh).ToList();
+            MonHoc monHoc = _context.MonHocs.FirstOrDefault(x => x.MaMh == mamh);
+
+            for (int i=0;i<chuongs.Count;i++)
+                    {
+                List<PhanCongLop> phanCongLops = _context.PhanCongLops.Where(x => x.IdChuong == chuongs[i].Id).ToList();
+                for (int j = 0; j < phanCongLops.Count; j++)
+                {
+                    try
+                    {
+                        _context.Remove(phanCongLops[j]);
+                        _context.SaveChanges();
+                    }
+                    catch { }
+                }
+
+                List<PhanCongNha> phanCongNhas = _context.PhanCongNhas.Where(x => x.IdChuong == chuongs[i].Id).ToList();
+                for (int k = 0; k < phanCongNhas.Count; k++)
+                {
+                    try
+                    {
+                        _context.Remove(phanCongNhas[k]);
+                        _context.SaveChanges();
+                    }
+                    catch { }
+                }
+                try
+                {
+                    _context.Remove(chuongs[i]);
+                    _context.SaveChanges();
+                }
+                catch { }
+            }
+
+           
+            for (int i = 0; i < monKhoas.Count; i++)
+            {
+                try
+                {
+                    _context.Remove(monKhoas[i]);
+                    _context.SaveChanges();
+                }
+                catch { }
+            }
+            for (int i = 0; i < monNganhs.Count; i++)
+            {
+                try
+                {
+                    _context.Remove(monNganhs[i]);
+                    _context.SaveChanges();
+                }
+                catch { }
+            }
+            for (int i = 0; i < mucTieus.Count; i++)
+            {
+                try
+                {
+                    _context.Remove(mucTieus[i]);
+                    _context.SaveChanges();
+                }
+                catch { }
+            }
+            for (int i = 0; i < chuanDauRas.Count; i++)
+            {
+                try
+                {
+                    _context.Remove(chuanDauRas[i]);
+                    _context.SaveChanges();
+                }
+                catch { }
+            }
+            for (int i = 0; i < mhtienQuyets.Count; i++)
+            {
+                try
+                {
+                    _context.Remove(mhtienQuyets[i]);
+                    _context.SaveChanges();
+                }
+                catch { }
+            }
+            for (int i = 0; i < mhtienQuyet.Count; i++)
+            {
+                try
+                {
+                    _context.Remove(mhtienQuyet[i]);
+                    _context.SaveChanges();
+                }
+                catch { }
+            }
+            try
+            {
+                _context.Remove(monHoc);
+                _context.SaveChanges();
+            }
+            catch { }
+
+            return Json(a);
+        }
+        public IActionResult Edit(string mamh)
+        {
+            ViewBag.mamh = _context.MonHocs.FirstOrDefault(x => x.MaMh == mamh);
+            ViewBag.chuyennganh = _context.ChuyenNganhs.ToList();
+            return View();
+                }
+        [HttpPost]
+        public IActionResult Edit([Bind("MaMh,Ten,Sotinchi,Mota,IdChuyennganh")] MonHoc monHoc)
+        {
+
+            monHoc.Ten.Trim();
+            monHoc.Mota.Trim();
+            try
+            {
+                _context.Update(monHoc);
+                _context.SaveChanges();
+            }
+            catch { }
+            return View();
+        }
         public IActionResult ImportPdf(IFormFile postedFile,int idkh,string idn)
         {
             string path = System.IO.Path.Combine(this.Environment.WebRootPath, "Uploads");
@@ -232,9 +365,18 @@ namespace Website_QuanlyCTDT.Controllers
             }
 
             string fileName = System.IO.Path.GetFileName(postedFile.FileName);
-            using (FileStream stream = new FileStream(System.IO.Path.Combine(path, fileName), FileMode.Create))
+            try
             {
-                postedFile.CopyTo(stream);
+                using (FileStream stream = new FileStream(System.IO.Path.Combine(path, fileName), FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+            }
+            catch
+            {
+                IEnumerable<KhoaHoc> khoahocs = _context.KhoaHocs.ToList();
+                TempData["message"] = "Import Fail!!!";
+                return RedirectToAction("Index", khoahocs);
             }
             string currentText = string.Empty;
             var text = new StringBuilder();
@@ -266,17 +408,22 @@ namespace Website_QuanlyCTDT.Controllers
             string mamh = newLines[1].Split(':')[1];
             if (_context.MonHocs.Where(m => m.MaMh == mamh.Trim()).Count() > 0)
             {
-                return View();
+                IEnumerable<KhoaHoc> khoahocs = _context.KhoaHocs.ToList();
+                TempData["message"] = "Import Fail!!!";
+                return RedirectToAction("Index",khoahocs);
             }
             string ten = newLines[2].Split(':')[1];
             int sotinchi = Convert.ToInt32(newLines[3].Split(':')[1]);
             string motamh = mota[1].Split('\n')[1];
             string[] ndmh = noidung[0].Split('\n');
             ndmh = ndmh.Where(val => val != "").ToArray();
+            ndmh = ndmh.Where(val => val != " ").ToArray();
             string[] mtmh = muctieu[0].Split('\n');
             mtmh = mtmh.Where(val => val != "").ToArray();
+            mtmh = mtmh.Where(val => val != " ").ToArray();
             string[] daura = muctieu[1].Split('\n');
             daura = daura.Where(val => val != "").ToArray();
+            daura = daura.Where(val => val != " ").ToArray();
             //string chuong = ndmh[1].Split(' ')[1];
             string[] chuong = new string[20];
             string[] pclop = new string[20];
@@ -297,8 +444,8 @@ namespace Website_QuanlyCTDT.Controllers
                 mt[0] += a[j] + " ";
             }
             string[] c = daura[1].Split(' ');
-            mtdr[0] = Convert.ToInt32(c[9]);
-            for (int j = 10; j < c.Length; j++)
+            mtdr[0] = Convert.ToInt32(c[0]);
+            for (int j = 1; j < c.Length; j++)
             {
                 dr[0] += c[j] + " ";
             }
@@ -312,22 +459,22 @@ namespace Website_QuanlyCTDT.Controllers
             //int dem=1 ;
             for (int j = 1; j < ndmh.Length; j++)
             {
-                if (ndmh[j] != "Nội dung GD tại lớp:" && ndmh[j] != "Nội dung tại nhà:")
+                if (ndmh[j].Trim() != "Nội dung GD tại lớp:" && ndmh[j].Trim() != "Nội dung tại nhà:")
                 {
                     chuong[sochuong] += ndmh[j] + " ";
                 }
-                if (ndmh[j] == "Nội dung GD tại lớp:")
+                if (ndmh[j].Trim() == "Nội dung GD tại lớp:")
                 {
                     sochuong++;
                     chuong[sochuong] = "";
                     for (int k = j + 1; k < ndmh.Length; k++)
                     {
-                        if (ndmh[k] != "Nội dung tại nhà:")
+                        if (ndmh[k].Trim() != "Nội dung tại nhà:")
                         {
                             pclop[solop] += ndmh[k] + " ";
                         }
 
-                        if (ndmh[k] == "Nội dung tại nhà:")
+                        if (ndmh[k].Trim() == "Nội dung tại nhà:")
                         {
 
                             j = k;
@@ -340,7 +487,7 @@ namespace Website_QuanlyCTDT.Controllers
                     }
 
                 }
-                if (ndmh[j] == "Nội dung tại nhà:")
+                if (ndmh[j].Trim() == "Nội dung tại nhà:")
 
                 {
                     for (int l = j + 1; l < ndmh.Length; l++)
@@ -554,7 +701,10 @@ namespace Website_QuanlyCTDT.Controllers
                 }
 
             }
-            return View();
+            IEnumerable<KhoaHoc> khoahoc = _context.KhoaHocs.ToList();
+            TempData["message"] = "Import Success!!!";
+            return RedirectToAction("Index", khoahoc);
+           
         }
 
     }

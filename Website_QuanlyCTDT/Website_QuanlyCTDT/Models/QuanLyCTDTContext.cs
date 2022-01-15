@@ -34,13 +34,28 @@ namespace Website_QuanlyCTDT.Models
         public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
         public virtual DbSet<Tuan> Tuans { get; set; }
         public virtual DbSet<getMHByKhoa_Result> getMHByKhoa_Results { get; set; }
+        public virtual DbSet<getMonhoc> getMonhocs { get; set; }
         public virtual DbSet<getMHhasTQ__Result> getMHhasTQ__Results { get; set; }
         public virtual DbSet<getMHTQ_Result> getMHTQ_Results { get; set; }
+        public virtual DbSet<getMH_Result> getMH_Results { get; set; }
+
         public IQueryable<getMHByKhoa_Result> getMHByKhoa(int id, string nganh)
         {
             SqlParameter kh = new SqlParameter("@id", id);
             SqlParameter ng = new SqlParameter("@nganh", nganh);
             return this.getMHByKhoa_Results.FromSqlRaw("SELECT * FROM dbo.getMHByKhoa(@id,@nganh)", kh, ng);
+        }
+        public IQueryable<getMH_Result> checkMHByKhoa(int id, string mamh)
+        {
+            SqlParameter kh = new SqlParameter("@idk", id);
+            SqlParameter mh = new SqlParameter("@mamh", mamh);
+            return this.getMH_Results.FromSqlRaw("EXECUTE checkMHByKhoa  @idk, @mamh", kh, mh);
+        }
+        public IQueryable<getMH_Result> checkMHByNganh(string idn, string mamh)
+        {
+            SqlParameter ng = new SqlParameter("@idn", idn);
+            SqlParameter mh = new SqlParameter("@mamh", mamh);
+            return this.getMH_Results.FromSqlRaw("EXECUTE checkMHByNganh  @idn, @mamh", ng, mh);
         }
         public IQueryable<MucTieu> getMuctieuByMH(string maMh)
         {
@@ -85,6 +100,18 @@ namespace Website_QuanlyCTDT.Models
             SqlParameter t = new SqlParameter("@ten", ten);
 
             return this.getMHByKhoa_Results.FromSqlRaw("EXECUTE searchSubjects @idKH, @idn, @ten", k,ng,t);
+        }
+        public IQueryable<MonHoc> searchSubject( string ten)
+        {
+           
+            SqlParameter t = new SqlParameter("@ten", ten);
+
+            return this.MonHocs.FromSqlRaw("EXECUTE searchSubject @ten", t);
+        }
+        public IQueryable<getMonhoc> getMonhoc()
+        {
+
+            return this.getMonhocs.FromSqlRaw("EXECUTE getMonhoc");
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -403,6 +430,8 @@ namespace Website_QuanlyCTDT.Models
             //}));
             modelBuilder.Entity<getMHhasTQ__Result>().ToTable("getMHhasTQ__Result").HasNoKey();
             modelBuilder.Entity<getMHTQ_Result>().ToTable("getMHTQ_Result").HasNoKey();
+            modelBuilder.Entity<getMonhoc>().ToTable("getMonhoc").HasNoKey();
+            modelBuilder.Entity<getMH_Result>().ToTable("getMH_Result").HasNoKey();
             OnModelCreatingPartial(modelBuilder);
         }
 

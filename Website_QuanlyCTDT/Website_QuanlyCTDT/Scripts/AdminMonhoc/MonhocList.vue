@@ -55,9 +55,10 @@
                                                 <md-table-cell>{{item.sotinchi}}</md-table-cell>
                                                 <md-table-cell>{{item.tenCn}}</md-table-cell>
                                                 <md-table-cell>
-                                                    <a :href="DetailsUrl+'/'+item.maMh" title="Xem chi tiết"><md-icon style="color:black">content_paste</md-icon></a>
-                                                    <a :href="MuctieuUrl+'/'+item.maMh" title="Mục tiêu" style="padding-left:10px;"><img src="https://img.icons8.com/color/24/000000/goal--v1.png" /></a>
-                                                    <a :href="DauraUrl+'/'+item.maMh" title="Chuẩn đầu ra" style="padding-left:10px;"><img src="https://img.icons8.com/material-two-tone/24/000000/define-location.png" /></a>
+                                                    <a :href="'/AdminMonhoc/Edit?mamh='+item.maMh" title="Chỉnh sửa môn học" style="padding-left:10px;"><img src="https://img.icons8.com/material/24/000000/edit--v1.png" /></a>
+                                                    <a :href="EditnoidungUrl+'/'+item.maMh" title="Chỉnh sửa nội dung"><md-icon style="color:black">content_paste</md-icon></a>
+                                                    <a :href="EditmuctieuUrl+'/'+item.maMh" title="Chỉnh sửa mục tiêu, chuẩn đầu ra" style="padding-left:10px;"><img src="https://img.icons8.com/color/24/000000/goal--v1.png" /></a>
+                                                    <button title="Xóa" style="padding-left:10px;background-color:white;border:none" v-on:click="Deletemh(item.maMh)"><img src="https://img.icons8.com/material-rounded/24/000000/filled-trash.png" /></button>
                                                 </md-table-cell>
                                             </md-table-row>
 
@@ -101,11 +102,12 @@
 
             Monhocs: Array,
             Nganhs: Array,
-            DetailsUrl: String,
+            EditUrl: String,
             Khoahoc: Number,
             SearchUrl: String,
             MuctieuUrl: String
         },
+        
         data() {
             return {
                Monhocs:[],
@@ -151,7 +153,36 @@
                             console.log(err);
                     });
                 
-            }
+            },
+            Deletemh(id) {
+
+
+                if (confirm("Do you want to delete?") == true) {
+
+                    const params = new URLSearchParams();
+
+                    params.append('mamh', id);
+
+
+                    axios.post('/AdminMonhoc/Delete', params)
+                        .then(function (response) {
+
+                            alert("Success");
+                            location.href = '/AdminMonhoc/Index';
+
+
+
+
+                        })
+                        .catch(function (err) {
+                            console.log(err);
+                        });
+                }
+                else {
+                    return;
+                }
+
+            },
         }
         
     }

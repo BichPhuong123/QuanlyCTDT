@@ -13,7 +13,7 @@
                             <div class="md-layout-item md-size-50 md-xsmall-size-100 md-small-size-50 md-medium-size-25">
                                 <md-field>
                                     <label>Mã môn học</label>
-                                    <md-input name="MaMh" type="text" required v-model="MaMh"></md-input>
+                                    <md-input name="MaMh" type="text" required v-model="MaMh" maxlength="10"></md-input>
                                   
                                     <span style="color:red">{{error}} </span>
                                 </md-field>
@@ -21,13 +21,13 @@
                             <div class="md-layout-item md-size-50 md-xsmall-size-100 md-small-size-50 md-medium-size-25">
                                 <md-field>
                                     <label>Tên môn học</label>
-                                    <md-input name="Ten" type="text" required v-model="Ten"></md-input>
+                                    <md-input name="Ten" type="text" required v-model="Ten" maxlength="100"></md-input>
                                 </md-field>
                             </div>
                             <div class="md-layout-item md-size-50 md-xsmall-size-100 md-small-size-50 md-medium-size-25">
                                 <md-field>
                                     <label>Số tín chỉ</label>
-                                    <md-input name="Sotinchi" type="number" required min="0" v-model="Sotinchi"></md-input>
+                                    <md-input name="Sotinchi" type="number" required min="0" v-model="Sotinchi" max="7"></md-input>
                                 </md-field>
                             </div>
                             <div class="md-layout-item md-size-100">
