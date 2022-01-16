@@ -180,7 +180,7 @@
                     var file_type = res["headers"]["content-type"];
                     var file = new Blob([file_data], { type: file_type });
                     console.log(file);
-                    saveAs(file, "Test.pdf")
+                    saveAs(file, "Decuong.pdf")
                     alert("Success");
                 });
             }

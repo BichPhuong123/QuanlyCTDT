@@ -116,10 +116,19 @@ namespace Website_QuanlyCTDT.Controllers
             PdfFont font2 = new PdfTrueTypeFont(fontFileStream, 13, PdfFontStyle.Bold);
           
             PdfTextElement element = new PdfTextElement("ĐỀ CƯƠNG CHI TIẾT", font1);
-            PdfLayoutResult result = element.Draw(page, new PointF(10, 0));
-            PdfTextElement element1 = new PdfTextElement("1. Mã môn học:" + monHoc.MaMh + "\n" + "2. Tên môn học:" + monHoc.Ten + "\n" + "3. Số tín chỉ: " + monHoc.Sotinchi + "\n" + "4. Mô tả môn học: \n" + monHoc.Mota +"\n"+ "5. Nội dung môn học:",font);
-            PdfLayoutResult result1 = element1.Draw(page, new PointF(0, result.Bounds.Bottom + 10));
-          
+            PdfLayoutResult result = element.Draw(page, new PointF(30, 0));
+            PdfTextElement element1 = new PdfTextElement("1. Mã môn học: " + monHoc.MaMh + "\n" + "2. Tên môn học: " + monHoc.Ten + "\n" + "3. Số tín chỉ: " + monHoc.Sotinchi + "\n" + "4. Mô tả môn học:",font);
+            PdfLayoutResult result10 = element1.Draw(page, new PointF(10, result.Bounds.Bottom + 10));
+            PdfTextElement element2 = new PdfTextElement(monHoc.Mota);
+            element2.Font = font;
+            PdfLayoutFormat layoutFormat = new PdfLayoutFormat();
+            layoutFormat.Break = PdfLayoutBreakType.FitPage;
+            //Set bounds to draw multiline text
+            RectangleF bounds = new RectangleF(10,95, page.Graphics.ClientSize.Width, page.Graphics.ClientSize.Height);
+            //Draw the text element with the properties and formats set
+            PdfLayoutResult result9 = element2.Draw(page, bounds, layoutFormat);
+            PdfTextElement element3 = new PdfTextElement("5. Nội dung môn học:",font);
+            PdfLayoutResult result1 = element3.Draw(page, new PointF(10, result9.Bounds.Bottom + 10));
             PdfGrid pdfGrid = new PdfGrid();
 
             

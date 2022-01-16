@@ -11,28 +11,32 @@
                         <md-button class="md-danger md-round" v-on:click="add">Add</md-button>
                         <form method="post" action="/AdminMonhoc/EditMuctieu">
                             <input name="MaMh" :value="Mamh" style="display:none" />
-                            <label>Mô tả</label>
-                            <div class="md-layout-item md-size-100">
-                                <md-field maxlength="3">
-                                    <label>Mô tả</label>
-                                    <md-textarea v-model="Mota" name="Mota[]"></md-textarea>
-                                </md-field>
-                            </div>
-                            <label>Chuẩn đầu ra</label>
-                            <div class="md-layout-item md-size-100">
-                                <md-field maxlength="3">
+                            <div v-for="(muctieu,index) in Muctieus">
+                                <input name="id[]" :value="muctieu.Id" style="display:none" />
+                                <label>Mô tả</label>
+                                <div class="md-layout-item md-size-100">
+                                    <md-field maxlength="3">
+                                        <label>Mô tả</label>
+                                        <md-textarea name="Mota[]" :value="muctieu.Mota"></md-textarea>
+                                    </md-field>
+                                </div>
+                                <label>Chuẩn đầu ra</label>
+                                <div class="md-layout-item md-size-100">
+                                    <md-field maxlength="3">
 
-                                    <md-textarea name="Daura[]"></md-textarea>
-                                </md-field>
+                                        <md-textarea name="Daura[]" :value="Chuandauras[index]"></md-textarea>
+                                    </md-field>
+                                </div>
+
+                                <hr>
                             </div>
-                            <hr>
                             <div v-html="item">
 
                                 {{item}}
                             </div>
 
                             <div class="md-layout-item md-size-100 text-right">
-                                <button class="md-button md-danger md-round" type="submit">Submit</button>
+                                <button class="md-button md-danger md-round" type="submit">Save</button>
                             </div>
                         </form>
 
@@ -49,12 +53,13 @@
 <script>
 
     export default {
-        name: "createmuctieu-component",
+        name: "editmuctieu-component",
         props: {
 
            
             Mamh: String,
-            
+            Muctieus: Array,
+            Chuandauras: Array
            
          
         },
@@ -63,7 +68,6 @@
                
                item:'',
                 
-                Mota:null
                     
             };
         },

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
@@ -87,23 +88,14 @@ namespace Website_QuanlyCTDT.Controllers
                 MonKhoa monkhoa = new MonKhoa();
                 monkhoa.MaMh = monHoc.MaMh.Trim();
                 monkhoa.IdKhoahoc = idkh;
-
+                monkhoa.Manganh = idn;
                 try
                 {
                     _context.Add(monkhoa);
                     _context.SaveChanges();
                 }
                 catch { }
-                MonNganh monnganh = new MonNganh();
-                monnganh.MaMh = monHoc.MaMh;
-                monnganh.Manganh = idn;
-
-                try
-                {
-                    _context.Add(monnganh);
-                    _context.SaveChanges();
-                }
-                catch { }
+               
                 a = 1;
             }
           
@@ -233,7 +225,7 @@ namespace Website_QuanlyCTDT.Controllers
         {
             int a = 1;
            List<MonKhoa> monKhoas = _context.MonKhoas.Where(x => x.MaMh == mamh).ToList();
-           List< MonNganh> monNganhs = _context.MonNganhs.Where(x => x.MaMh == mamh).ToList();
+         
             List<MucTieu> mucTieus = _context.MucTieus.Where(x => x.MaMh == mamh).ToList();
             List<ChuanDauRa> chuanDauRas = _context.ChuanDauRas.Where(x => x.MaMh == mamh).ToList();
             List<MhtienQuyet> mhtienQuyets= _context.MhtienQuyets.Where(x => x.MaMh == mamh).ToList();
@@ -282,15 +274,15 @@ namespace Website_QuanlyCTDT.Controllers
                 }
                 catch { }
             }
-            for (int i = 0; i < monNganhs.Count; i++)
-            {
-                try
-                {
-                    _context.Remove(monNganhs[i]);
-                    _context.SaveChanges();
-                }
-                catch { }
-            }
+            //for (int i = 0; i < monNganhs.Count; i++)
+            //{
+            //    try
+            //    {
+            //        _context.Remove(monNganhs[i]);
+            //        _context.SaveChanges();
+            //    }
+            //    catch { }
+            //}
             for (int i = 0; i < mucTieus.Count; i++)
             {
                 try
@@ -338,8 +330,11 @@ namespace Website_QuanlyCTDT.Controllers
         }
         public IActionResult Edit(string mamh)
         {
-            ViewBag.mamh = _context.MonHocs.FirstOrDefault(x => x.MaMh == mamh);
+            
             ViewBag.chuyennganh = _context.ChuyenNganhs.ToList();
+            MonHoc mon = _context.MonHocs.FirstOrDefault(x => x.MaMh == mamh);
+            mon.IdChuyennganhNavigation = null;
+            ViewBag.mamh = mon;
             return View();
                 }
         [HttpPost]
@@ -354,7 +349,310 @@ namespace Website_QuanlyCTDT.Controllers
                 _context.SaveChanges();
             }
             catch { }
+          
+                IEnumerable<KhoaHoc> khoahocs = _context.KhoaHocs.ToList();
+                TempData["message"] = "Success";
+                return RedirectToAction("Index", khoahocs);
+           
+        }
+        public IActionResult EditMuctieu(string mamh)
+        {
+            List<MucTieu> mucTieu = _context.MucTieus.Where(x => x.MaMh == mamh).ToList();
+            List<string> chuanDauRas = new List<string>();
+            for (int i = 0; i < mucTieu.Count; i++)
+            {
+                string a ="";
+                List<ChuanDauRa> chuans = _context.ChuanDauRas.Where(x => x.IdMuctieu == mucTieu[i].Id).ToList();
+                for (int j = 0; j < chuans.Count; j++)
+                {
+                    a += chuans[j].Mota +'\n';
+                }
+                chuanDauRas.Add(a);
+                mucTieu[i].ChuanDauRas = null;
+            }
+           
+            ViewBag.muctieu = mucTieu;
+            ViewBag.mamh = mamh;
+            ViewBag.chuandaura = chuanDauRas;
             return View();
+        }
+        [HttpPost]
+        public IActionResult EditMuctieu(string[] Mota, string[] Daura,string MaMh,int[] id)
+        {
+           
+            List<ChuanDauRa> chuanDauRas = _context.ChuanDauRas.Where(x => x.MaMh == MaMh).ToList();
+            for(int i = 0; i < chuanDauRas.Count; i++)
+            {
+                try
+                {
+                    _context.Remove(chuanDauRas[i]);
+                    _context.SaveChanges();
+                }
+                catch { }
+                    }
+           
+            for (int i = 0; i < Mota.Length; i++)
+            {
+
+                if (Mota[i] != null)
+                {
+                    if(i<id.Length)
+                    {
+                        MucTieu mucTieu = _context.MucTieus.FirstOrDefault(x => x.Id == id[i]);
+                        mucTieu.Mota = Mota[i].Trim();
+
+                        try
+                        {
+                            _context.Update(mucTieu);
+                            _context.SaveChanges();
+                        }
+                        catch { }
+                        if (Daura[i] != null)
+                        {
+                            string[] daura = Daura[i].Split("\r\n");
+                            daura = daura.Where(val => val != "").ToArray();
+                            daura = daura.Where(val => val != " ").ToArray();
+                            for (int j = 0; j < daura.Length; j++)
+                            {
+                                ChuanDauRa chuanDauRa = new ChuanDauRa();
+                                chuanDauRa.Mota = daura[j].Trim();
+                                chuanDauRa.MaMh = MaMh;
+                                chuanDauRa.IdMuctieu = mucTieu.Id;
+                                try
+                                {
+                                    _context.Add(chuanDauRa);
+                                    _context.SaveChanges();
+                                }
+                                catch { }
+                            }
+                        }
+                    }
+                   
+                   
+                    else
+                    {
+                        MucTieu mucTieu1 = new MucTieu();
+                        mucTieu1.Mota = Mota[i].Trim();
+                        mucTieu1.MaMh = MaMh;
+                        try
+                        {
+                            _context.Add(mucTieu1);
+                            _context.SaveChanges();
+                        }
+                        catch { }
+                        if (Daura[i] != null)
+                        {
+                            string[] daura = Daura[i].Split("\r\n");
+                            daura = daura.Where(val => val != "").ToArray();
+                            daura = daura.Where(val => val != " ").ToArray();
+                            for (int j = 0; j < daura.Length; j++)
+                            {
+                                ChuanDauRa chuanDauRa = new ChuanDauRa();
+                                chuanDauRa.Mota = daura[j].Trim();
+                                chuanDauRa.MaMh = MaMh;
+                                chuanDauRa.IdMuctieu = mucTieu1.Id;
+                                try
+                                {
+                                    _context.Add(chuanDauRa);
+                                    _context.SaveChanges();
+                                }
+                                catch { }
+                            }
+                        }
+                    }
+                    
+                }
+
+
+
+            }
+            IEnumerable<KhoaHoc> khoahocs = _context.KhoaHocs.ToList();
+            TempData["message"] = "Success";
+            return RedirectToAction("Index", khoahocs);
+        }
+        public IActionResult EditNoidung(string mamh)
+        {
+            List<Chuong> chuongs= _context.Chuongs.Where(x => x.MaMh == mamh).ToList();
+            List<string> lops = new List<string>();
+            List<string> nhas = new List<string>();
+
+            for (int i = 0; i < chuongs.Count; i++)
+            {
+                string a = "";
+                string b = "";
+                List<PhanCongLop> pclops = _context.PhanCongLops.Where(x => x.IdChuong == chuongs[i].Id).ToList();
+                List<PhanCongNha> pcnhas = _context.PhanCongNhas.Where(x => x.IdChuong == chuongs[i].Id).ToList();
+                for (int j = 0; j < pclops.Count; j++)
+                {
+                    a += pclops[j].Mota + '\n';
+                }
+                lops.Add(a);
+                for (int j = 0; j < pcnhas.Count; j++)
+                {
+                    b += pcnhas[j].Mota + '\n';
+                }
+                nhas.Add(b);
+                chuongs[i].PhanCongNhas = null;
+                chuongs[i].PhanCongLops = null;
+            }
+
+            ViewBag.chuong = chuongs;
+            ViewBag.phanconglop = lops;
+            ViewBag.phancongnha = nhas;
+            ViewBag.mamh = mamh;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult EditNoidung(string[] Ten, string[] lop, string[] nha, int[] Tuan, string MaMh,int[] id)
+        {
+            List<Chuong> chuongs = _context.Chuongs.Where(x => x.MaMh == MaMh).ToList();
+            for (int i = 0; i < chuongs.Count; i++)
+            {
+                List<PhanCongLop> lops = _context.PhanCongLops.Where(x => x.IdChuong == chuongs[i].Id).ToList();
+                List<PhanCongNha> nhas = _context.PhanCongNhas.Where(x => x.IdChuong == chuongs[i].Id).ToList();
+                for (int j = 0; j < lops.Count; j++)
+                {
+                    try
+                    {
+                        _context.Remove(lops[j]);
+                        _context.SaveChanges();
+                    }
+                    catch { }
+                }
+                for (int j = 0; j < nhas.Count; j++)
+                {
+                    try
+                    {
+                        _context.Remove(nhas[j]);
+                        _context.SaveChanges();
+                    }
+                    catch { }
+                }
+            }
+                for (int i = 0; i < Ten.Length; i++)
+            {
+
+
+                int tuan = Tuan[i];
+                if (Ten[i] != null)
+                {
+                    if(i<id.Length)
+                    {
+                        Chuong chuong = _context.Chuongs.FirstOrDefault(x => x.Id == id[i]);
+                        chuong.Ten = Ten[i].Trim();
+                        chuong.IdTuan = tuan;
+                        try
+                        {
+                            _context.Update(chuong);
+                            _context.SaveChanges();
+                        }
+                        catch { }
+                        if (lop[i] != null)
+                        {
+                            string[] pclop = lop[i].Split("\r\n");
+                            pclop = pclop.Where(val => val != "").ToArray();
+                            pclop = pclop.Where(val => val != " ").ToArray();
+                            for (int j = 0; j < pclop.Length; j++)
+                            {
+                                PhanCongLop phanCongLop = new PhanCongLop();
+                                phanCongLop.Mota = pclop[j].Trim();
+                                phanCongLop.IdChuong = chuong.Id;
+
+                                try
+                                {
+                                    _context.Add(phanCongLop);
+                                    _context.SaveChanges();
+                                }
+                                catch { }
+                            }
+                        }
+                        if (nha[i] != null)
+                        {
+                            string[] pcnha = nha[i].Split("\r\n");
+                            pcnha = pcnha.Where(val => val != "").ToArray();
+                            pcnha = pcnha.Where(val => val != " ").ToArray();
+                            for (int k = 0; k < pcnha.Length; k++)
+                            {
+                                PhanCongNha phanCongNha = new PhanCongNha();
+                                phanCongNha.Mota = pcnha[k].Trim();
+                                phanCongNha.IdChuong = chuong.Id;
+
+                                try
+                                {
+                                    _context.Add(phanCongNha);
+                                    _context.SaveChanges();
+                                }
+                                catch { }
+                            }
+                        }
+                    }
+                    
+                  
+                    else
+                    {
+                        Chuong chuong1 = new Chuong();
+                        chuong1.Ten = Ten[i].Trim();
+                        chuong1.MaMh = MaMh;
+                        chuong1.IdTuan = tuan;
+                        try
+                        {
+                            _context.Add(chuong1);
+                            _context.SaveChanges();
+                        }
+                        catch { }
+                        if (lop[i] != null)
+                        {
+                            string[] pclop = lop[i].Split("\r\n");
+                            pclop = pclop.Where(val => val != "").ToArray();
+                            pclop = pclop.Where(val => val != " ").ToArray();
+                            for (int j = 0; j < pclop.Length; j++)
+                            {
+                                PhanCongLop phanCongLop = new PhanCongLop();
+                                phanCongLop.Mota = pclop[j].Trim();
+                                phanCongLop.IdChuong = chuong1.Id;
+
+                                try
+                                {
+                                    _context.Add(phanCongLop);
+                                    _context.SaveChanges();
+                                }
+                                catch { }
+                            }
+                        }
+                        if (nha[i] != null)
+                        {
+                            string[] pcnha = nha[i].Split("\r\n");
+                            pcnha = pcnha.Where(val => val != "").ToArray();
+                            pcnha = pcnha.Where(val => val != " ").ToArray();
+                            for (int k = 0; k < pcnha.Length; k++)
+                            {
+                                PhanCongNha phanCongNha = new PhanCongNha();
+                                phanCongNha.Mota = pcnha[k].Trim();
+                                phanCongNha.IdChuong = chuong1.Id;
+
+                                try
+                                {
+                                    _context.Add(phanCongNha);
+                                    _context.SaveChanges();
+                                }
+                                catch { }
+                            }
+                        }
+                    }
+                   
+                    
+                    
+                   
+                   
+                }
+               
+
+
+
+            }
+            IEnumerable<KhoaHoc> khoahocs = _context.KhoaHocs.ToList();
+            TempData["message"] = "Success";
+            return RedirectToAction("Index", khoahocs);
         }
         public IActionResult ImportPdf(IFormFile postedFile,int idkh,string idn)
         {
@@ -364,19 +662,24 @@ namespace Website_QuanlyCTDT.Controllers
                 Directory.CreateDirectory(path);
             }
 
-            string fileName = System.IO.Path.GetFileName(postedFile.FileName);
+            string fileName = Path.GetFileName(postedFile.FileName);
+            
             try
             {
-                using (FileStream stream = new FileStream(System.IO.Path.Combine(path, fileName), FileMode.Create))
+
+                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
                 {
                     postedFile.CopyTo(stream);
                 }
+               
+                   
+               
             }
             catch
             {
-                IEnumerable<KhoaHoc> khoahocs = _context.KhoaHocs.ToList();
-                TempData["message"] = "Import Fail!!!";
-                return RedirectToAction("Index", khoahocs);
+
+              
+                    
             }
             string currentText = string.Empty;
             var text = new StringBuilder();
@@ -445,7 +748,7 @@ namespace Website_QuanlyCTDT.Controllers
             }
             string[] c = daura[1].Split(' ');
             mtdr[0] = Convert.ToInt32(c[0]);
-            for (int j = 1; j < c.Length; j++)
+            for (int j = 2; j < c.Length; j++)
             {
                 dr[0] += c[j] + " ";
             }
@@ -582,23 +885,14 @@ namespace Website_QuanlyCTDT.Controllers
             MonKhoa monkhoa = new MonKhoa();
             monkhoa.MaMh = mamh.Trim();
             monkhoa.IdKhoahoc = idkh;
-          
+          monkhoa.Manganh = idn;
             try
             {
                 _context.Add(monkhoa);
                 _context.SaveChanges();
             }
             catch { }
-            MonNganh monnganh = new MonNganh();
-            monnganh.MaMh = mamh.Trim();
-            monnganh.Manganh = idn;
-
-            try
-            {
-                _context.Add(monnganh);
-                _context.SaveChanges();
-            }
-            catch { }
+           
             for (int i = 0; i < mt.Length; i++)
             {
                 if (mt[i] == null)

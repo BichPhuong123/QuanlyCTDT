@@ -59,9 +59,9 @@
 </template>
 
 <script>
-    import axios from 'axios';
+  
     export default {
-        name: "createmonhoc-component",
+        name: "edit-component",
         props: {
 
            
@@ -71,63 +71,7 @@
          
         },
         
-        methods:
-        {
-            add() {
-               
-                this.item += ' <div class="md-layout-item md-size-100"><div class="md-field md-theme-default md-has-textarea" maxlength="3"><label>Mô tả</label> <textarea class="md-textarea"></textarea></div> </div>';
-              
-                
-            },
-            checkForm: function (e){
-               
-                e.preventDefault();
-                this.errors = [];
-
-                var base = this;
-                
-
-                const params = new URLSearchParams();
-                //params.append('idkh', base.Khoahoc);
-                //params.append('idn', id);
-                params.append('MaMh', base.MaMh);
-                params.append('Ten', base.Ten);
-                params.append('Sotinchi', base.Sotinchi);
-                params.append('Mota', base.Mota);
-                params.append('IdChuyennganh', base.IdChuyennganh);
-                params.append('idkh', base.Khoahoc);
-                params.append('idn', base.Nganh);
-
-                axios.post('/AdminMonhoc/CreateMonhoc', params)
-                    .then(function (response) {
-                        if (response.data == 1) {
-                           
-                            location.href = '/AdminMonhoc/CreateMuctieu?MaMh=' + base.MaMh;
-                            console.log(location.href)
-                        }
-                        else {
-                            base.error ="Mã môn học đã tồn tại"
-                        }
-
-
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                    });
-              
-                    //fetch(apiUrl + encodeURIComponent(this.name))
-                    //    .then(async res => {
-                    //        if (res.status === 204) {
-                    //            alert('OK');
-                    //        } else if (res.status === 400) {
-                    //            let errorResponse = await res.json();
-                    //            this.errors.push(errorResponse.error);
-                    //        }
-                    //    });
-                
-            }
-
-        }
+       
 };
 </script>
 

@@ -9,8 +9,9 @@ namespace Website_QuanlyCTDT.Models
     {
         public string MaMh { get; set; }
         public int IdKhoahoc { get; set; }
+        public string Manganh { get; set; }
 
         public virtual KhoaHoc IdKhoahocNavigation { get; set; }
-        public virtual MonHoc MaMhNavigation { get; set; }
+        public virtual Nganh ManganhNavigation { get; set; }
     }
 }

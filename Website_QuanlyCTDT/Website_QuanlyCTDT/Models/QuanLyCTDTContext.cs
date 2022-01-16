@@ -26,7 +26,6 @@ namespace Website_QuanlyCTDT.Models
         public virtual DbSet<MhtienQuyet> MhtienQuyets { get; set; }
         public virtual DbSet<MonHoc> MonHocs { get; set; }
         public virtual DbSet<MonKhoa> MonKhoas { get; set; }
-        public virtual DbSet<MonNganh> MonNganhs { get; set; }
         public virtual DbSet<MucTieu> MucTieus { get; set; }
         public virtual DbSet<Nganh> Nganhs { get; set; }
         public virtual DbSet<PhanCongLop> PhanCongLops { get; set; }
@@ -37,7 +36,7 @@ namespace Website_QuanlyCTDT.Models
         public virtual DbSet<getMonhoc> getMonhocs { get; set; }
         public virtual DbSet<getMHhasTQ__Result> getMHhasTQ__Results { get; set; }
         public virtual DbSet<getMHTQ_Result> getMHTQ_Results { get; set; }
-        public virtual DbSet<getMH_Result> getMH_Results { get; set; }
+   
 
         public IQueryable<getMHByKhoa_Result> getMHByKhoa(int id, string nganh)
         {
@@ -45,18 +44,7 @@ namespace Website_QuanlyCTDT.Models
             SqlParameter ng = new SqlParameter("@nganh", nganh);
             return this.getMHByKhoa_Results.FromSqlRaw("SELECT * FROM dbo.getMHByKhoa(@id,@nganh)", kh, ng);
         }
-        public IQueryable<getMH_Result> checkMHByKhoa(int id, string mamh)
-        {
-            SqlParameter kh = new SqlParameter("@idk", id);
-            SqlParameter mh = new SqlParameter("@mamh", mamh);
-            return this.getMH_Results.FromSqlRaw("EXECUTE checkMHByKhoa  @idk, @mamh", kh, mh);
-        }
-        public IQueryable<getMH_Result> checkMHByNganh(string idn, string mamh)
-        {
-            SqlParameter ng = new SqlParameter("@idn", idn);
-            SqlParameter mh = new SqlParameter("@mamh", mamh);
-            return this.getMH_Results.FromSqlRaw("EXECUTE checkMHByNganh  @idn, @mamh", ng, mh);
-        }
+       
         public IQueryable<MucTieu> getMuctieuByMH(string maMh)
         {
             SqlParameter id = new SqlParameter("@maMh", maMh);
@@ -99,11 +87,11 @@ namespace Website_QuanlyCTDT.Models
             SqlParameter ng = new SqlParameter("@idn", idn);
             SqlParameter t = new SqlParameter("@ten", ten);
 
-            return this.getMHByKhoa_Results.FromSqlRaw("EXECUTE searchSubjects @idKH, @idn, @ten", k,ng,t);
+            return this.getMHByKhoa_Results.FromSqlRaw("EXECUTE searchSubjects @idKH, @idn, @ten", k, ng, t);
         }
-        public IQueryable<MonHoc> searchSubject( string ten)
+        public IQueryable<MonHoc> searchSubject(string ten)
         {
-           
+
             SqlParameter t = new SqlParameter("@ten", ten);
 
             return this.MonHocs.FromSqlRaw("EXECUTE searchSubject @ten", t);
@@ -197,7 +185,9 @@ namespace Website_QuanlyCTDT.Models
             {
                 entity.ToTable("KhoaHoc");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
 
                 entity.Property(e => e.TenKh)
                     .HasMaxLength(20)
@@ -267,8 +257,8 @@ namespace Website_QuanlyCTDT.Models
 
             modelBuilder.Entity<MonKhoa>(entity =>
             {
-                entity.HasKey(e => new { e.MaMh, e.IdKhoahoc })
-                    .HasName("PK__MonKhoa__0DEEC3FB398E0FFF");
+                entity.HasKey(e => new { e.MaMh, e.IdKhoahoc, e.Manganh })
+                    .HasName("PK__MonKhoa__BA72DB7E697D49FF");
 
                 entity.ToTable("MonKhoa");
 
@@ -279,47 +269,22 @@ namespace Website_QuanlyCTDT.Models
 
                 entity.Property(e => e.IdKhoahoc).HasColumnName("id_khoahoc");
 
-                entity.HasOne(d => d.IdKhoahocNavigation)
-                    .WithMany(p => p.MonKhoas)
-                    .HasForeignKey(d => d.IdKhoahoc)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonKhoa__id_khoa__5535A963");
-
-                entity.HasOne(d => d.MaMhNavigation)
-                    .WithMany(p => p.MonKhoas)
-                    .HasForeignKey(d => d.MaMh)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonKhoa__maMH__5441852A");
-            });
-
-            modelBuilder.Entity<MonNganh>(entity =>
-            {
-                entity.HasKey(e => new { e.Manganh, e.MaMh })
-                    .HasName("PK__MonNganh__EBBB684CA4C9329A");
-
-                entity.ToTable("MonNganh");
-
                 entity.Property(e => e.Manganh)
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("manganh");
 
-                entity.Property(e => e.MaMh)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("maMH");
-
-                entity.HasOne(d => d.MaMhNavigation)
-                    .WithMany(p => p.MonNganhs)
-                    .HasForeignKey(d => d.MaMh)
+                entity.HasOne(d => d.IdKhoahocNavigation)
+                    .WithMany(p => p.MonKhoas)
+                    .HasForeignKey(d => d.IdKhoahoc)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonNganh__maMH__59063A47");
+                    .HasConstraintName("FK__MonKhoa__id_khoa__55BFB948");
 
                 entity.HasOne(d => d.ManganhNavigation)
-                    .WithMany(p => p.MonNganhs)
+                    .WithMany(p => p.MonKhoas)
                     .HasForeignKey(d => d.Manganh)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MonNganh__mangan__5812160E");
+                    .HasConstraintName("FK__MonKhoa__manganh__56B3DD81");
             });
 
             modelBuilder.Entity<MucTieu>(entity =>
@@ -431,7 +396,7 @@ namespace Website_QuanlyCTDT.Models
             modelBuilder.Entity<getMHhasTQ__Result>().ToTable("getMHhasTQ__Result").HasNoKey();
             modelBuilder.Entity<getMHTQ_Result>().ToTable("getMHTQ_Result").HasNoKey();
             modelBuilder.Entity<getMonhoc>().ToTable("getMonhoc").HasNoKey();
-            modelBuilder.Entity<getMH_Result>().ToTable("getMH_Result").HasNoKey();
+            
             OnModelCreatingPartial(modelBuilder);
         }
 

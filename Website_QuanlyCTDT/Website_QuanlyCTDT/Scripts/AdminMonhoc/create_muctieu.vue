@@ -15,7 +15,7 @@
                             <div class="md-layout-item md-size-100">
                                 <md-field maxlength="3">
                                     <label>Mô tả</label>
-                                    <md-textarea v-model="Mota" name="Mota[]"></md-textarea>
+                                    <md-textarea name="Mota[]"></md-textarea>
                                 </md-field>
                             </div>
                             <label>Chuẩn đầu ra</label>
@@ -63,7 +63,7 @@
                
                item:'',
                 
-                Mota:null
+                
                     
             };
         },

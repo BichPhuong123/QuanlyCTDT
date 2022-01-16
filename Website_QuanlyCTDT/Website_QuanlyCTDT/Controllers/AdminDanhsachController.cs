@@ -62,22 +62,15 @@ namespace Website_QuanlyCTDT.Controllers
            
             for (int i =0;i<monhoc.Count;i++)
             {
-                List<getMH_Result> res = _context.checkMHByKhoa(idk, monhoc[i].maMh).ToList();
-                List<getMH_Result> res1 = _context.checkMHByNganh(manganh, monhoc[i].maMh).ToList();
-                var item = _context.MonKhoas.SingleOrDefault(x => x.MaMh == monhoc[i].maMh && x.IdKhoahoc == idk);
+                
+                var item = _context.MonKhoas.SingleOrDefault(x => x.MaMh == monhoc[i].maMh && x.IdKhoahoc == idk && x.Manganh == manganh);
                 try
                 {
                     _context.MonKhoas.Remove(item);
                     _context.SaveChanges();
                 }
                 catch { }
-                var item1 = _context.MonNganhs.SingleOrDefault(x => x.MaMh == monhoc[i].maMh && x.Manganh == manganh);
-                try
-                {
-                    _context.MonNganhs.Remove(item1);
-                    _context.SaveChanges();
-                }
-                catch { }
+                
 
                 //if (res.Count > 1 )
                 //{
@@ -132,29 +125,19 @@ namespace Website_QuanlyCTDT.Controllers
             for (int i = 0; i < mamh.Length; i++)
             {
                 MonKhoa monKhoa = new MonKhoa();
-                MonNganh monNganh = new MonNganh();
+              
                 monKhoa.IdKhoahoc = idk;
                 monKhoa.MaMh = mamh[i];
-                if(_context.MonKhoas.FirstOrDefault(x => x.MaMh == mamh[i] && x.IdKhoahoc == idk)==null)
-                {
+                monKhoa.Manganh = manganh;
+               
                     try
                     {
                         _context.Add(monKhoa);
                         _context.SaveChanges();
                     }
                     catch { }
-                }
-                monNganh.Manganh = manganh;
-                monNganh.MaMh = mamh[i];
-                if (_context.MonNganhs.FirstOrDefault(x => x.MaMh == mamh[i] && x.Manganh == manganh) == null)
-                {
-                    try
-                    {
-                        _context.Add(monNganh);
-                        _context.SaveChanges();
-                    }
-                    catch { }
-                }
+             
+               
                 
               
             }

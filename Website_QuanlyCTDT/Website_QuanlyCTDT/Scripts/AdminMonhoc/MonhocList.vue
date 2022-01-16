@@ -56,8 +56,8 @@
                                                 <md-table-cell>{{item.tenCn}}</md-table-cell>
                                                 <md-table-cell>
                                                     <a :href="'/AdminMonhoc/Edit?mamh='+item.maMh" title="Chỉnh sửa môn học" style="padding-left:10px;"><img src="https://img.icons8.com/material/24/000000/edit--v1.png" /></a>
-                                                    <a :href="EditnoidungUrl+'/'+item.maMh" title="Chỉnh sửa nội dung"><md-icon style="color:black">content_paste</md-icon></a>
-                                                    <a :href="EditmuctieuUrl+'/'+item.maMh" title="Chỉnh sửa mục tiêu, chuẩn đầu ra" style="padding-left:10px;"><img src="https://img.icons8.com/color/24/000000/goal--v1.png" /></a>
+                                                    <a :href="'/AdminMonhoc/EditNoidung?mamh='+item.maMh" title="Chỉnh sửa nội dung"><md-icon style="color:black">content_paste</md-icon></a>
+                                                    <a :href="'/AdminMonhoc/EditMuctieu?mamh='+item.maMh" title="Chỉnh sửa mục tiêu, chuẩn đầu ra" style="padding-left:10px;"><img src="https://img.icons8.com/color/24/000000/goal--v1.png" /></a>
                                                     <button title="Xóa" style="padding-left:10px;background-color:white;border:none" v-on:click="Deletemh(item.maMh)"><img src="https://img.icons8.com/material-rounded/24/000000/filled-trash.png" /></button>
                                                 </md-table-cell>
                                             </md-table-row>

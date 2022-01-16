@@ -9,12 +9,12 @@ namespace Website_QuanlyCTDT.Models
     {
         public Nganh()
         {
-            MonNganhs = new HashSet<MonNganh>();
+            MonKhoas = new HashSet<MonKhoa>();
         }
 
         public string Manganh { get; set; }
         public string Tennganh { get; set; }
 
-        public virtual ICollection<MonNganh> MonNganhs { get; set; }
+        public virtual ICollection<MonKhoa> MonKhoas { get; set; }
     }
 }
